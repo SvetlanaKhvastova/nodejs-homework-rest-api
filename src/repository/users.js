@@ -30,14 +30,28 @@ class UsersReporitory {
   }
 
   async updateSubscriptionStatus(userId, id, body) {
-    console.log(userId, id, body);
-    const result = await this.model.findByIdAndUpdate(
+    const result = await this.Model.findByIdAndUpdate(
       { _id: id, userId },
       { ...body },
       { new: true }
     );
     return result;
   }
+
+  async updateAvatar(id, avatarURL) {
+    return await this.Model.updateOne({ _id: id }, { avatarURL });
+  }
+
+  //
+  // async updateAvatar(id, avatar, idCloudAvatar) {
+  //   await this.Model.updateOne({ _id: id }, { avatar, idCloudAvatar });
+  // }
+
+  // async getAvatar(id) {
+  //   const { avatar, idCloudAvatar } = await this.Model.findOne({ _id: id });
+  //   return { avatar, idCloudAvatar };
+  // }
+  //
 }
 
 module.exports = { UsersReporitory };
