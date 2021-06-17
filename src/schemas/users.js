@@ -7,6 +7,10 @@ const { Schema } = mongoose;
 const { Subscription } = require("../helpers/constants");
 
 const userSchema = new Schema({
+  name: {
+    type: String,
+    default: "Guest",
+  },
   password: {
     type: String,
     required: [true, "Password is required"],
@@ -45,6 +49,15 @@ const userSchema = new Schema({
   idCloudAvatar: {
     type: String,
     default: null,
+  },
+
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verifyToken: {
+    type: String,
+    required: [true, "Verify token is required"],
   },
 });
 
