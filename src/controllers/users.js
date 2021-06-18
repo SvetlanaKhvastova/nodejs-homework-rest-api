@@ -8,6 +8,8 @@ const { UserService, AuthService } = require("../services");
 const { EmailService } = require("../services/email");
 const { CreateSenderNodemailer } = require("../services/email-sender");
 
+const { ErrorHandler } = require("../helpers/errorHandler");
+
 require("dotenv").config();
 const AVATAR_OF_USERS = process.env.AVATAR_OF_USERS;
 const newUserRepo = new UsersReporitory();
@@ -103,6 +105,18 @@ const signup = async (req, res, next) => {
       avatarURL,
       verifyToken,
     });
+
+    try {
+      const createSenderNodemailer = new CreateSenderNodemailer();
+
+      const emailService = new EmailService(
+        process.env.NODE_ENV,
+        createSenderNodemailer
+      );
+      await emailService.sendVerifyEmail(verifyToken, email, name);
+    } catch (error) {
+      throw new ErrorHandler(503, error.message, "Service Unavailable");
+    }
 
     return res.status(HttpCode.CREATED).json({
       status: "success",

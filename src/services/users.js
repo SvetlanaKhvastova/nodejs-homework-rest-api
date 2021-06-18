@@ -1,9 +1,7 @@
 const { UsersReporitory } = require("../repository");
 const { EmailService } = require("./email");
-const { ErrorHandler } = require("../helpers/errorHandler");
 const { CreateSenderNodemailer } = require("./email-sender");
 
-const { nanoid } = require("nanoid");
 //
 // const cloudinary = require("cloudinary").v2;
 // const fs = require("fs/promises");
@@ -40,14 +38,7 @@ class UserService {
   }
 
   async addUser(body) {
-    const verifyToken = nanoid();
-    const { email, name } = body;
-
-    try {
-      await this.emailServise.sendVerifyEmail(verifyToken, email, name);
-    } catch (error) {
-      throw new ErrorHandler(503, error.message, "Service Unavailable");
-    }
+    const { verifyToken } = body;
 
     const data = await this.repositories.users.addUser({
       ...body,
