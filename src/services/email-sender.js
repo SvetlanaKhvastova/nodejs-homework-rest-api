@@ -1,10 +1,12 @@
 const nodemailer = require("nodemailer");
+const smtpTransport = require("nodemailer-smtp-transport");
 require("dotenv").config();
 
 class CreateSenderNodemailer {
   async send(msg) {
     const config = {
-      host: "smtp.meta.ua",
+      service: "gmail",
+      host: "smtp.gmail.com",
       port: 465,
       secure: true,
       auth: {
@@ -12,10 +14,10 @@ class CreateSenderNodemailer {
         pass: process.env.PASSWORD,
       },
     };
-
-    const transporter = nodemailer.createTransport(config);
-
-    return await transporter.sendMail({ ...msg, from: process.env.EMAIL });
+    const transporter = nodemailer.createTransport(smtpTransport(config));
+    const s = await transporter.sendMail({ ...msg, from: process.env.EMAIL });
+    console.log(`s`, s);
+    return s;
   }
 }
 

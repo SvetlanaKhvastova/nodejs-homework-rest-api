@@ -1,6 +1,7 @@
 const { UsersReporitory } = require("../repository");
 const { EmailService } = require("./email");
 const { ErrorHandler } = require("../helpers/errorHandler");
+const { CreateSenderNodemailer } = require("./email-sender");
 
 const { nanoid } = require("nanoid");
 //
@@ -17,7 +18,10 @@ class UserService {
     //   api_key: process.env.API_KEY,
     //   api_secret: process.env.API_SECRET,
     // });
-    this.emailServise = new EmailService();
+    this.emailServise = new EmailService(
+      process.env.NODE_ENV,
+      new CreateSenderNodemailer()
+    );
     this.repositories = {
       users: new UsersReporitory(),
     };

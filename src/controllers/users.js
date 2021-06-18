@@ -47,10 +47,12 @@ const repeatEmailVerification = async (req, res, next) => {
     if (user) {
       const { name, email, verify, verifyToken } = user;
 
+      const createSenderNodemailer = new CreateSenderNodemailer();
+
       if (!verify) {
         const emailService = new EmailService(
           process.env.NODE_ENV,
-          new CreateSenderNodemailer()
+          createSenderNodemailer
         );
 
         await emailService.sendVerifyEmail(verifyToken, email, name);
@@ -84,6 +86,7 @@ const signup = async (req, res, next) => {
     req.body;
 
   const user = await serviceUser.findByEmail(email);
+
   if (user) {
     return next({
       status: HttpCode.CONFLICT,
@@ -100,16 +103,6 @@ const signup = async (req, res, next) => {
       avatarURL,
       verifyToken,
     });
-
-    try {
-      const emailService = new EmailService(
-        process.env.NODE_ENV,
-        new CreateSenderNodemailer()
-      );
-      await emailService.sendVerifyEmail(verifyToken, email, name);
-    } catch (error) {
-      console.log(error.mesagge);
-    }
 
     return res.status(HttpCode.CREATED).json({
       status: "success",

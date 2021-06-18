@@ -5,6 +5,8 @@ class EmailService {
   constructor(env, sender) {
     this.sender = sender;
 
+    console.log(`sender`, sender);
+
     switch (env) {
       case "development":
         this.link = " https://102425358ba6.ngrok.io";
@@ -41,6 +43,7 @@ class EmailService {
         },
       },
     };
+
     return mailGenerator.generate(email);
   }
 
@@ -54,8 +57,8 @@ class EmailService {
     };
     // console.log(msg);
     const result = await this.sender.send(msg);
-
-    console.log(result);
+    console.log(`result`, result);
+    return result;
   }
 }
 module.exports = { EmailService };
