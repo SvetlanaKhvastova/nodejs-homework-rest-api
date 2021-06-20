@@ -7,7 +7,7 @@ class EmailService {
 
     switch (env) {
       case "development":
-        this.link = "http://a78631a28b6c.ngrok.io";
+        this.link = "https://a78631a28b6c.ngrok.io";
         break;
       case "production":
         this.link = "link for production";
@@ -46,6 +46,7 @@ class EmailService {
   }
 
   async sendVerifyEmail(verifyToken, email, name) {
+    console.log(verifyToken, email, name);
     const emailHtml = this.#createTemplateVerificationEmail(verifyToken, name);
     const msg = {
       to: email,

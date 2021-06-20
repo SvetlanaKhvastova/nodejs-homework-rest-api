@@ -117,8 +117,8 @@ const signup = async (req, res, next) => {
         newUser.name
       );
     } catch (error) {
+      console.log(error.message);
       // throw new ErrorHandler(503, error.message, "Service Unavailable");
-      console.log(`error.mesagge`, error.mesagge);
     }
 
     return res.status(HttpCode.CREATED).json({
@@ -256,7 +256,7 @@ const avatars = async (req, res, next) => {
     try {
       await fs.unlink(path.join(AVATAR_OF_USERS, req.user.avatarURL));
     } catch (e) {
-      console.log(`e.mesagge`, e.mesagge);
+      console.log(e.mesagge);
     }
 
     await newUserRepo.updateAvatar(id, avatarUri);

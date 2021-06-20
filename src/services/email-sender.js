@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer");
-
 require("dotenv").config();
 
 class CreateSenderNodemailer {
@@ -18,7 +17,6 @@ class CreateSenderNodemailer {
       ...msg,
       from: process.env.EMAIL,
     });
-
     return result;
   }
 }
