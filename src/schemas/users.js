@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
-const SALT_FACTOR = 6;
-
 const { nanoid } = require("nanoid");
+const SALT_FACTOR = 6;
 
 const { Schema } = mongoose;
 const { Subscription } = require("../helpers/constants");

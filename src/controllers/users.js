@@ -53,7 +53,7 @@ const repeatEmailVerification = async (req, res, next) => {
 
       if (!verify) {
         const emailService = new EmailService(
-          process.env.NODE_ENV,
+          req.app.get("env"),
           createSenderNodemailer
         );
 
@@ -84,8 +84,7 @@ const repeatEmailVerification = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
-  const { name, email, password, subscription, avatarURL, verifyToken } =
-    req.body;
+  const { name, email, password, subscription, avatarURL } = req.body;
 
   const user = await serviceUser.findByEmail(email);
 
@@ -103,19 +102,23 @@ const signup = async (req, res, next) => {
       password,
       subscription,
       avatarURL,
-      verifyToken,
     });
 
     try {
       const createSenderNodemailer = new CreateSenderNodemailer();
 
       const emailService = new EmailService(
-        process.env.NODE_ENV,
+        req.app.get("env"),
         createSenderNodemailer
       );
-      await emailService.sendVerifyEmail(verifyToken, email, name);
+      await emailService.sendVerifyEmail(
+        newUser.verifyToken,
+        newUser.email,
+        newUser.name
+      );
     } catch (error) {
-      throw new ErrorHandler(503, error.message, "Service Unavailable");
+      // throw new ErrorHandler(503, error.message, "Service Unavailable");
+      console.log(`error.mesagge`, error.mesagge);
     }
 
     return res.status(HttpCode.CREATED).json({
@@ -253,7 +256,7 @@ const avatars = async (req, res, next) => {
     try {
       await fs.unlink(path.join(AVATAR_OF_USERS, req.user.avatarURL));
     } catch (e) {
-      console.log(e.mesagge);
+      console.log(`e.mesagge`, e.mesagge);
     }
 
     await newUserRepo.updateAvatar(id, avatarUri);

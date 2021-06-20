@@ -5,11 +5,9 @@ class EmailService {
   constructor(env, sender) {
     this.sender = sender;
 
-    console.log(`sender`, sender);
-
     switch (env) {
       case "development":
-        this.link = "https://e04c7a52984d.ngrok.io";
+        this.link = "http://a78631a28b6c.ngrok.io";
         break;
       case "production":
         this.link = "link for production";
@@ -48,14 +46,12 @@ class EmailService {
   }
 
   async sendVerifyEmail(verifyToken, email, name) {
-    console.log(verifyToken, email, name);
     const emailHtml = this.#createTemplateVerificationEmail(verifyToken, name);
     const msg = {
       to: email,
       subject: "Verify your account",
       html: emailHtml,
     };
-    // console.log(msg);
     const result = await this.sender.send(msg);
     console.log(`result`, result);
     return result;
