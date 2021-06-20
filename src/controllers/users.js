@@ -49,9 +49,8 @@ const repeatEmailVerification = async (req, res, next) => {
     if (user) {
       const { name, email, verify, verifyToken } = user;
 
-      const createSenderNodemailer = new CreateSenderNodemailer();
-
       if (!verify) {
+        const createSenderNodemailer = new CreateSenderNodemailer();
         const emailService = new EmailService(
           req.app.get("env"),
           createSenderNodemailer
