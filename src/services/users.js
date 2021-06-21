@@ -4,7 +4,6 @@ const { UsersReporitory } = require("../repository");
 // const cloudinary = require("cloudinary").v2;
 // const fs = require("fs/promises");
 //
-
 require("dotenv").config();
 
 class UserService {
@@ -15,13 +14,32 @@ class UserService {
     //   api_key: process.env.API_KEY,
     //   api_secret: process.env.API_SECRET,
     // });
+
     this.repositories = {
       users: new UsersReporitory(),
     };
   }
 
+  async verify({ token }) {
+    const user = await this.repositories.users.findByField({
+      verifyToken: token,
+    });
+
+    if (user) {
+      await user.updateOne({ verify: true, verifyToken: null });
+      return true;
+    }
+    return false;
+  }
+
   async addUser(body) {
-    const data = await this.repositories.users.addUser(body);
+    const { verifyToken } = body;
+
+    const data = await this.repositories.users.addUser({
+      ...body,
+      verifyToken,
+    });
+
     return data;
   }
 

@@ -15,6 +15,11 @@ class UsersReporitory {
     return result;
   }
 
+  async findByField(field) {
+    const result = await this.Model.findOne(field);
+    return result;
+  }
+
   async addUser(body) {
     const user = new this.Model(body);
     return user.save();

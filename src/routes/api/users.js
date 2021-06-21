@@ -6,6 +6,8 @@ const { createAccountLimiter } = require("../../helpers/rate-limit");
 const { upload } = require("../../helpers/upload");
 
 router
+  .get("/verify/:token", usersController.verify)
+  .post("/verify", usersController.repeatEmailVerification)
   .post("/signup", createAccountLimiter, usersController.signup)
   .post("/login", usersController.login)
   .post("/logout", guard, usersController.logout)
