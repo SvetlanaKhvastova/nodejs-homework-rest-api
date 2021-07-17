@@ -7,13 +7,13 @@ class EmailService {
 
     switch (env) {
       case "development":
-        this.link = "http://b0ac0c433828.ngrok.io";
+        this.link = "http://5dad7d14a834.ngrok.io";
         break;
       case "production":
         this.link = "link for production";
         break;
       default:
-        this.link = "http://b0ac0c433828.ngrok.io";
+        this.link = "http://5dad7d14a834.ngrok.io";
         break;
     }
   }
