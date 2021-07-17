@@ -4,6 +4,8 @@ require("dotenv").config();
 class CreateSenderNodemailer {
   async send(msg) {
     const config = {
+      // service: "gmail",
+      // host: "smtp.gmail.com",
       host: "smtp.meta.ua",
       port: 465,
       secure: true,
